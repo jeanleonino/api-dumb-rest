@@ -6,19 +6,21 @@ var application_root = __dirname,
 var app = express();
 
 // Configure server
-app.configure( function() {
-    //parses request body and populates request.body
-    app.use( express.bodyParser() );
+var env = process.env.NODE_ENV || 'development';
+if ('development' == env) {
+  // configure stuff here
+  //parses request body and populates request.body
+  app.use( express.bodyParser() );
 
-    //checks request.body for HTTP method overrides
-    app.use( express.methodOverride() );
+  //checks request.body for HTTP method overrides
+  app.use( express.methodOverride() );
 
-    //perform route lookup based on url and HTTP method
-    app.use( app.router );
+  //perform route lookup based on url and HTTP method
+  app.use( app.router );
 
-    //Show all errors in development
-    app.use( express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
+  //Show all errors in development
+  app.use( express.errorHandler({ dumpExceptions: true, showStack: true }));
+}
 
 //Router
 //Get a list of all books
